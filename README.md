@@ -44,16 +44,6 @@ Philipp Weber
 - Guidelines on how to test the application.
 - Information about any test scripts or test data included.
 
-## Troubleshooting
-- Common issues and their solutions.
-- Tips for debugging within the Docker environment.
-
-## Contributing
-- Guidelines for contributing to the project (if applicable).
-
-## License
-- Information about the project's licensing.
-
 ## Contact
 - Your contact information for further questions or feedback.
 
