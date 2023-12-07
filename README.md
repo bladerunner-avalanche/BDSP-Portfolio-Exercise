@@ -1,13 +1,11 @@
+
 # Big Data Application Using Docker
 
 **Project by**
 
-Marcel Winterhalter
-
-Drilon Gashi
-
-Jonas Jost
-
+Marcel Winterhalter  
+Drilon Gashi  
+Jonas Jost  
 Philipp Weber
 
 ## Introduction
