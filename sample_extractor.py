@@ -1,8 +1,8 @@
 import csv
 
 sample_amount = 50
-input_csv = '/Users/marcelwinterhalter/Developer/Projects/BDSP/eCommerceDataset/2019-Oct.csv'
-output_csv = 'sample_oct_2019.csv'
+input_csv = 'INPUT_CSV_PATH'
+output_csv = 'OUTPUT_CSV_PATH'
 
 def extract_samples(input_csv, output_csv):
     try:
