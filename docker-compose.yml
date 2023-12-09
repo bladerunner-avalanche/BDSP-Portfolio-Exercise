@@ -16,6 +16,8 @@ services:
     environment:
       MINIO_ROOT_USER: root
       MINIO_ROOT_PASSWORD: root-pass
+      MINIO_ACCESS_KEY: minioaccesskey
+      MINIO_SECRET_KEY: miniosecretkey
     command: server /data --console-address :9001
     volumes:
       - minio_data:/data
