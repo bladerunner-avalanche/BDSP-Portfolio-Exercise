@@ -1,26 +1,47 @@
-version: '3'
+version: '3.8'
 
 services:
-  spark:
+  # Spark Master Service
+  spark-master:
     image: bitnami/spark:latest
     ports:
-      - "8080:8080" # Spark master web UI
+      - "8080:8080"  # Spark master web UI
+      - "7077:7077"  # Spark master communication port
     environment:
       - SPARK_MODE=master
+      - SPARK_EXTRA_JAVA_OPTIONS=-Dspark.hadoop.fs.s3a.endpoint=http://minio:9000 -Dspark.hadoop.fs.s3a.access.key=minioadmin -Dspark.hadoop.fs.s3a.secret.key=minioadmin -Dspark.hadoop.fs.s3a.path.style.access=true -Dspark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+    networks:
+      - spark-network
 
+  # Spark Worker Service
+  spark-worker:
+    image: bitnami/spark:latest
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=1G  # Adjust memory as necessary
+      - SPARK_WORKER_CORES=1    # Adjust CPU cores as necessary
+      - SPARK_EXTRA_JAVA_OPTIONS=-Dspark.hadoop.fs.s3a.endpoint=http://minio:9000 -Dspark.hadoop.fs.s3a.access.key=minioadmin -Dspark.hadoop.fs.s3a.secret.key=minioadmin -Dspark.hadoop.fs.s3a.path.style.access=true -Dspark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+    networks:
+      - spark-network
+
+  # MinIO Service
   minio:
     image: minio/minio
     ports:
-      - "9000:9000" # MinIO API
+      - "9000:9000"  # MinIO API
       - "9001:9001" # MinIO Web UI
     environment:
-      MINIO_ROOT_USER: root
-      MINIO_ROOT_PASSWORD: root-pass
-      MINIO_ACCESS_KEY: minioaccesskey
-      MINIO_SECRET_KEY: miniosecretkey
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
     command: server /data --console-address :9001
     volumes:
       - minio_data:/data
+    networks:
+      - spark-network
+
+networks:
+  spark-network:
 
 volumes:
   minio_data:
